@@ -1,0 +1,67 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+      	
+	<!-- This is where we configure Spring-Security  -->
+	<http auto-config="true">
+	
+		<intercept-url pattern="/formation/**" access="hasRole('USER')"/>
+		
+		<form-login
+				login-page="/auth/login"
+				username-parameter="j_username"
+				password-parameter="j_password" 
+				authentication-failure-url="/auth/login?error" 
+				default-target-url="/formation/list"/>
+			
+		<logout logout-success-url="/auth/login?logout"/>
+		
+	</http>
+	
+	<global-method-security pre-post-annotations="enabled"/>
+	
+	<!-- 
+			For authentication:
+			user-search-filter: the attribute name that contains the user name 
+		    user-search-base: the base path where to find user information
+		    
+		    For authorization:
+		    group-search-filter: the attribute name that contains the full dn of a user
+		    group-search-base: the base path where to find role information
+		    group-role-attribute: the attribute name that contains the role type
+		    role-prefix: the prefix to be added when retrieving role values
+		    
+		    For server access:
+		    manager-dn: the full dn of the person that has access to an LDAP server
+		    manager-password: the password of the person that has access to an LDAP server
+	-->
+	<!-- <authentication-manager >
+        <authentication-provider>
+            <user-service>
+                <user name="bill"  password="abc123"  authorities="ROLE_USER" />
+                <user name="admin" password="root123" authorities="ROLE_ADMIN" />
+                <user name="dba"   password="root123" authorities="ROLE_ADMIN,ROLE_DBA" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager> -->
+	
+	
+	<authentication-manager>
+	        <ldap-authentication-provider  
+	        		user-search-filter="(uid={0})" 
+	        		user-search-base="ou=users"
+	        		group-search-filter="(uniqueMember={0})"
+	        		group-search-base="ou=groups"
+	        		group-role-attribute="cn"
+	        		role-prefix="ROLE_">
+	        		
+	        </ldap-authentication-provider>
+	</authentication-manager>
+	
+	<!-- Use an embedded LDAP server. We need to declare the location of the LDIF file
+			We also need to customize the root attribute default is "dc=springframework,dc=org"  -->
+	<ldap-server ldif="classpath:ldap.ldif"  root="o=mojo"/>
+	
+</beans:beans>

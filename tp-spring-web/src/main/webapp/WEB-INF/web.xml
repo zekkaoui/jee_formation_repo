@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app>
+
+<web-app>
+	<description>TP Spring - Formation JEE avancée</description>
+	
+	<!-- Le fichier de configuration du context de base de l'application -->
+	
+	
+	<context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+        /WEB-INF/security-context.xml
+        /WEB-INF/application-context.xml
+        </param-value>
+    </context-param>
+
+	<!--Charge la configuration Spring à partir de la variable de contexte « contextConfigLocation »-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <!-- Declaration de la servlet de Spring et de son mapping -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+			<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+			<init-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>/WEB-INF/application-context.xml</param-value>
+			</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+<filter>
+	<filter-name>sitemesh</filter-name>
+	<filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+</filter>
+<filter-mapping>
+	<filter-name>sitemesh</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+	
+</web-app>
