@@ -10,7 +10,7 @@
   
   <dependencies>
   	
-  	<!-- Spring dep-->
+  	<!-- Spring dep test from github-->
   	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-orm</artifactId>
