@@ -7,9 +7,10 @@
   </parent>
   <artifactId>tp-spring-core</artifactId>
   
+  
   <dependencies>
   	
-  	<!-- Spring -->
+  	<!-- Spring dep-->
   	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-orm</artifactId>

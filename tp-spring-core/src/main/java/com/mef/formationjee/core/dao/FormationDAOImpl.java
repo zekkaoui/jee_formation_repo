@@ -10,7 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import com.mef.formationjee.core.model.Formation;
 
-
+/**
+ * TEST commit
+ * @author a165066
+ *
+ */
 @Repository
 public class FormationDAOImpl implements IFormationDAO {
 
@@ -40,6 +44,7 @@ public class FormationDAOImpl implements IFormationDAO {
 
 	public Formation getFormationParId(Long pIdFormation) {
 		return entityManager.find(Formation.class, pIdFormation);
+		
 	}
 
 }
